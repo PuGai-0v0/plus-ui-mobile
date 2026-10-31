@@ -1,0 +1,136 @@
+{
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			"^wd-(.*)": "@wot-ui/ui/components/wd-$1/wd-$1.vue",
+			"^list-skeleton$": "@/components/list-skeleton.vue"
+		}
+	},
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/workbench/index",
+			"style": {
+				"navigationBarTitleText": "工作台"
+			}
+		},
+		{
+			"path": "pages/mine/index",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/login/index",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+      		"path": "pages/demo/list/index",
+      		"style": {
+				"navigationBarTitleText": "数据列表",
+				"enablePullDownRefresh": true
+      		}
+		},
+		{
+			"path": "pages/demo/form/index",
+			"style": {
+				"navigationBarTitleText": "表单提交"
+			}
+		},
+		{
+			"path": "pages/demo/upload/index",
+			"style": {
+				"navigationBarTitleText": "文件上传"
+			}
+		},
+		{
+			"path": "pages/demo/payment/index",
+			"style": {
+				"navigationBarTitleText": "支付演示"
+			}
+		},
+		{
+			"path": "pages/demo/order/index",
+			"style": {
+				"navigationBarTitleText": "订单列表",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/demo/camera/index",
+			"style": {
+				"navigationBarTitleText": "相机相册"
+			}
+		},
+		{
+			"path": "pages/demo/scan/index",
+			"style": {
+				"navigationBarTitleText": "扫一扫"
+			}
+		},
+		{
+			"path": "pages/demo/map/index",
+			"style": {
+				"navigationBarTitleText": "定位地图"
+			}
+		},
+		{
+			"path": "pages/demo/dialog/index",
+			"style": {
+				"navigationBarTitleText": "消息弹窗"
+			}
+		},
+		{
+			"path": "pages/demo/picker/index",
+			"style": {
+				"navigationBarTitleText": "选择器"
+			}
+		},
+		{
+			"path": "pages/demo/components/index",
+			"style": {
+				"navigationBarTitleText": "常用组件"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "移动端",
+		"navigationBarBackgroundColor": "#ffffff",
+		"backgroundColor": "#f7f8fa",
+		"navigationStyle": "custom"
+	},
+	"tabBar": {
+		"color": "#7a7e83",
+		"selectedColor": "#1c64fd",
+		"backgroundColor": "#ffffff",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"text": "首页",
+				"iconPath": "static/images/tabbar/home.png",
+				"selectedIconPath": "static/images/tabbar/home-active.png"
+			},
+			{
+				"pagePath": "pages/workbench/index",
+				"text": "工作台",
+				"iconPath": "static/images/tabbar/work.png",
+				"selectedIconPath": "static/images/tabbar/work-active.png"
+			},
+			{
+				"pagePath": "pages/mine/index",
+				"text": "我的",
+				"iconPath": "static/images/tabbar/mine.png",
+				"selectedIconPath": "static/images/tabbar/mine-active.png"
+			}
+		]
+	}
+}

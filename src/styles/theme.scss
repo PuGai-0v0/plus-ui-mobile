@@ -1,0 +1,33 @@
+/**
+ * 全局基底样式
+ * 页面级背景 / 正文文字统一绑定 Wot 语义变量，深浅色随 .wot-theme-dark / .wot-theme-light 自动切换。
+ * 页面样式禁止再写硬编码色值，一律使用 var(--wot-*) 语义变量。
+ */
+
+page {
+  background-color: var(--wot-filled-bottom, #f7f8fa);
+  color: var(--wot-text-main, #1d1f29);
+}
+
+/**
+ * 仅在深色主题下把 danger plain 的文字色与边框色覆盖为正文主色，
+ * 浅色模式不受影响，仍保持 danger 的语义红色。
+ */
+.wot-theme-dark {
+  --wot-button-danger-color: var(--wot-text-main);
+  --wot-button-danger-plain-border: var(--wot-text-main);
+}
+
+/**
+ * 小程序端 wd-button 为独立自定义组件（样式隔离），CSS 变量只能继承 page，
+ * 而 Wot 的 theme/index.scss 把 page 同时写进了 dark / light 两个选择器且 light 在后，
+ * 导致 page 上恒为 light 变量，上面的变量覆盖在小程序端失效。
+ * 因此在深色主题下用全局选择器直接覆盖组件颜色（plain 按钮边框绘制在 ::after 伪元素上）。
+ */
+.wot-theme-dark .wd-button.is-plain.is-danger {
+  color: #f7f8fa !important;
+
+  &::after {
+    border-color: #f7f8fa !important;
+  }
+}

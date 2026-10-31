@@ -1,0 +1,97 @@
+diff --git a/node_modules/@wot-ui/ui/common/util.ts b/node_modules/@wot-ui/ui/common/util.ts
+index cd5e94e..3844797 100644
+--- a/node_modules/@wot-ui/ui/common/util.ts
++++ b/node_modules/@wot-ui/ui/common/util.ts
+@@ -426,14 +426,15 @@ export function objToStyle(styles: Record<string, any> | Record<string, any>[]):
+     // 使用 Object.keys 获取所有属性名
+     // 使用过滤函数去除值为 null 或空字符串的属性
+     // 对每个属性名和属性值进行格式化，通过分号连接
++    const obj = styles as Record<string, unknown>
+     const result = Object.keys(styles)
+       .filter(function (key) {
+-        return styles[key] != null && styles[key] !== ''
++        return obj[key] != null && obj[key] !== ''
+       })
+       .map(function (key) {
+         // 使用 kebabCase 函数将属性名转换为 kebab-case 格式
+         // 将属性名和属性值格式化为 CSS 样式的键值对
+-        return [kebabCase(key), styles[key]].join(':')
++        return [kebabCase(key), obj[key]].join(':')
+       })
+       .join(';')
+ 
+diff --git a/node_modules/@wot-ui/ui/components/wd-input-number/index.scss b/node_modules/@wot-ui/ui/components/wd-input-number/index.scss
+index 2571622..b7cb18b 100644
+--- a/node_modules/@wot-ui/ui/components/wd-input-number/index.scss
++++ b/node_modules/@wot-ui/ui/components/wd-input-number/index.scss
+@@ -146,6 +146,8 @@ $input-number-action-primary-sub-color: var(--wot-input-number-action-primary-su
+     height: 100%;
+     border: none;
+     outline: none;
++    // 支付宝端原生 input 默认白底会盖住 __inner 的主题背景
++    background-color: transparent;
+     text-align: center;
+     color: $input-number-input-color;
+     font-size: $input-number-font-size;
+diff --git a/node_modules/@wot-ui/ui/components/wd-picker-view/wd-picker-view.vue b/node_modules/@wot-ui/ui/components/wd-picker-view/wd-picker-view.vue
+index 8601aef..78593fb 100644
+--- a/node_modules/@wot-ui/ui/components/wd-picker-view/wd-picker-view.vue
++++ b/node_modules/@wot-ui/ui/components/wd-picker-view/wd-picker-view.vue
+@@ -5,6 +5,8 @@
+       class="wd-picker-view__main"
+       mask-class="wd-picker-view__mask"
+       indicator-class="wd-picker-view__roller"
++      :mask-style="maskStyle"
++      :indicator-style="indicatorStyle"
+       :style="pickerViewStyle"
+       :value="selectedIndex"
+       :immediate-change="immediateChange"
+@@ -14,7 +16,7 @@
+     >
+       <picker-view-column v-for="(col, colIndex) in formatColumns" :key="colIndex" class="wd-picker-view__column">
+         <block v-for="(row, rowIndex) in col" :key="rowIndex">
+-          <view :class="getItemClass(row['disabled'], colIndex, rowIndex)">
++          <view :class="getItemClass(row['disabled'], colIndex, rowIndex)" :style="getColumnItemStyle(row['disabled'])">
+             {{ row[labelKey] }}
+           </view>
+         </block>
+@@ -36,7 +38,7 @@ export default {
+ }
+ </script>
+ <script lang="ts" setup>
+-import { watch, nextTick, computed } from 'vue'
++import { watch, nextTick, computed, inject, unref, type Ref } from 'vue'
+ import { addUnit, isDef, isEqual, isArray, isObj } from '../../common/util'
+ import { pickerViewProps, type PickerViewExpose, type PickerOption } from './types'
+ 
+@@ -45,6 +47,7 @@ import { type Numeric } from '../../common/props'
+ 
+ const props = defineProps(pickerViewProps)
+ const emit = defineEmits(['change', 'pickstart', 'pickend', 'update:modelValue'])
++const injectedColumnItemColor = inject('wot-picker-column-item-color', '')
+ 
+ // 使用 selection hooks 管理数据处理逻辑
+ const {
+@@ -96,6 +99,22 @@ const pickerViewStyle = computed(() => {
+   return `height: ${addUnit(props.itemHeight * props.visibleItemCount)};`
+ })
+ 
++// 支付宝端组件 acss 的后代选择器命中不了原生 picker-view 内部节点，蒙层/选中框需内联下发，取值与 index.scss 一致
++const maskStyle =
++  'background-image:linear-gradient(180deg,var(--wot-picker-view-mask-start-color,var(--wot-opacwhite-10_85,rgba(255,255,255,0.8509803922))),var(--wot-picker-view-mask-end-color,var(--wot-opacwhite-5_20,rgba(255,255,255,0.2)))),linear-gradient(0deg,var(--wot-picker-view-mask-start-color,var(--wot-opacwhite-10_85,rgba(255,255,255,0.8509803922))),var(--wot-opacwhite-5_20,rgba(255,255,255,0.2))));background-position:top,bottom;background-repeat:no-repeat;'
++const indicatorStyle = 'background:var(--wot-picker-view-roller-bg,var(--wot-filled-bottom,var(--wot-coolgrey-1,#f7f8fa)));'
++
++/**
++ * 列文字内联色值：支付宝端原生 picker-view-column 的 slot 节点在部分创建路径下
++ * 丢失 CSS 变量继承，故列文字颜色改由宿主经 provide('wot-picker-column-item-color')
++ * 下发具体色值，未 provide 时返回空串、维持原 var() 链路
++ */
++function getColumnItemStyle(disabled: boolean | undefined) {
++  if (disabled) return ''
++  const color = unref(injectedColumnItemColor as Ref<string> | string)
++  return color ? `color:${color};` : ''
++}
++
+ /**
+  * 获取 column item 的类名
+  * @param disabled 是否禁用

@@ -1,0 +1,32 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+Thumbs.db
+.DS_Store
+._xxx
+desktop.ini
+dist
+*.local
+
+# Editor directories and files
+.idea
+.vscode
+.hbuilderx
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 工具写能力探针临时文件
+.write_probe*
+
+# uni-app 编译产物（npm run clear 一并清理）
+unpackage

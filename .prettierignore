@@ -1,0 +1,7 @@
+.idea
+node_modules
+dist
+package-lock.json
+src/pages.json
+src/manifest.json
+src/static

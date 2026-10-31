@@ -1,0 +1,31 @@
+/* 全站公共样式：页面骨架 / 卡片 / 宫格图标色 */
+.page-root {
+  min-height: 100vh;
+  background: var(--wot-filled-bottom, #f7f8fa);
+}
+
+.page-body {
+  padding: 12px 16px 24px;
+}
+
+.card {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--wot-filled-oppo, #fff);
+}
+
+.card:first-child {
+  margin-top: 0;
+}
+
+.card-title {
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--wot-text-main, #1d1f29);
+}
+
+.grid-icon {
+  color: var(--wot-primary-6);
+}
