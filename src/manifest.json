@@ -2,7 +2,7 @@
     "name" : "plus-ui-mobile",
     "appid" : "",
     "description" : "",
-    "versionName" : "1.0.0",
+    "versionName" : "1.0.1",
     "versionCode" : "100",
     "transformPx" : true,
     "app-plus" : {
