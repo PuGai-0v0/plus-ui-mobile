@@ -76,10 +76,10 @@
     "@vue/tsconfig": "0.9.1",
     "patch-package": "8.0.1",
     "prettier": "3.9.10",
-    "rollup": "4.14.3",
+    "rollup": "4.67.3",
     "sass": "1.107.0",
     "typescript": "5.9.3",
-    "vite": "5.2.8",
+    "vite": "6.4.5",
     "vue-tsc": "2.2.12"
   }
 }
