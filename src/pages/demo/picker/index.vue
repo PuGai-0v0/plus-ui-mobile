@@ -42,6 +42,7 @@
     <wd-datetime-picker
       v-model="dateValue"
       type="datetime"
+      use-second
       :visible="dateVisible"
       @confirm="onDateConfirm"
       @cancel="dateVisible = false"
@@ -95,7 +96,7 @@ function onCascadeConfirm({ value, selectedItems }: { value: (string | number)[]
 
 const dateVisible = ref(false);
 const dateValue = ref(Date.now());
-// 初值与选择器默认值（当前时间）一致，避免首渲染有值却显示"请选择"
+// 初值与选择器默认值（当前时间）一致，避免首渲染有值却显示"请选择"；use-second 开启秒列，展示带秒
 const dateLabel = ref(formatDateTime(Date.now()));
 
 function onDateConfirm({ value }: { value: number }) {

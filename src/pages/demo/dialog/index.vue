@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useToast, useDialog, useNotify } from '@wot-ui/ui';
+import { useToast, useDialog, useNotify, setNotifyDefaultOptions } from '@wot-ui/ui';
 import { usePageTheme } from '@/composables/usePageTheme';
 
 const { themeStore } = usePageTheme();
@@ -41,6 +41,9 @@ const { themeStore } = usePageTheme();
 const toast = useToast();
 const dialog = useDialog();
 const { showNotify } = useNotify();
+
+// 通知条 top:0 会被状态栏/刘海遮挡（小程序端），下移一个状态栏高度；wd-notify 的样式取自页面级 inject 状态，需走默认配置而非组件属性
+setNotifyDefaultOptions({ safeHeight: uni.getSystemInfoSync().statusBarHeight || 0 });
 
 const sheetVisible = ref(false);
 const sheetActions = [{ name: '选项一' }, { name: '选项二' }, { name: '选项三' }];

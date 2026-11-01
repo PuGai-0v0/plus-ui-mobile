@@ -6,7 +6,7 @@ export interface DemoItem {
   title: string;
   category: string;
   status: string;
-  amount: number | string;
+  amount: number | string | null;
   /** 计划日期 YYYY-MM-DD */
   planDate?: string | null;
   /** 是否加急（0否 1是） */

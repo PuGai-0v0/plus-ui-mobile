@@ -22,6 +22,8 @@
           <wd-form-item prop="amount" title="金额">
             <wd-input-number
               v-model="model.amount"
+              allow-null
+              placeholder="请输入金额"
               :min="0"
               :max="999999"
               :step="0.01"
@@ -50,13 +52,14 @@
           </wd-form-item>
         </wd-form>
       </view>
-      <view class="card">
+      <view class="card action-card">
         <wd-button type="primary" block :loading="submitting" @click="onSubmit">
           {{ isEdit ? '保存修改' : '提交' }}
         </wd-button>
-        <wd-button v-if="isEdit" type="danger" plain block class="mt" @click="onDelete"
-          >删除该条目</wd-button
-        >
+        <!-- scoped 类挂自定义组件标签在小程序端不命中（virtualHost 转发 class 但 data-v 不随入），间距包一层原生 view -->
+        <view v-if="isEdit" class="mt">
+          <wd-button type="danger" plain block @click="onDelete">删除该条目</wd-button>
+        </view>
       </view>
     </view>
     <wd-picker
@@ -95,7 +98,8 @@ const model = reactive({
   title: '',
   category: '办公',
   status: '0',
-  amount: 0,
+  // allow-null + 空初值：避免 0 被格式化成 "0.00" 挡在光标前，手工输入数字全被精度截断拒绝
+  amount: null as number | null,
   planDate: Date.now() as number | null,
   urgent: false,
   tags: [] as string[],
@@ -139,7 +143,10 @@ onLoad((options) => {
       model.title = item.title || '';
       model.category = item.category || '办公';
       model.status = item.status || '0';
-      model.amount = Number(item.amount) || 0;
+      model.amount =
+        item.amount === null || item.amount === undefined || item.amount === ''
+          ? null
+          : Number(item.amount);
       model.remark = item.remark || '';
       model.urgent = item.urgent === '1';
       model.tags = item.tags ? item.tags.split(',').filter(Boolean) : [];
@@ -197,7 +204,13 @@ function onDelete() {
 
 <style scoped>
 .mt {
-  margin-top: 12px;
+  margin-top: 16px;
+}
+
+/* 底部按钮组与屏幕底边留白，避开全面屏 home 指示条 */
+.action-card {
+  margin-bottom: 24px;
+  margin-bottom: calc(24px + env(safe-area-inset-bottom));
 }
 
 .picker-trigger {

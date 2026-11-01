@@ -43,9 +43,10 @@
       <view class="card">
         <view class="card-title">进度条 Progress</view>
         <wd-progress :percentage="progress" />
-        <wd-button size="small" class="mt" @click="progress = Math.min(100, progress + 10)"
-          >+10%</wd-button
-        >
+        <!-- scoped 类挂 wd- 组件标签在小程序端不命中，间距包一层原生 view -->
+        <view class="mt">
+          <wd-button size="small" @click="progress = Math.min(100, progress + 10)">+10%</wd-button>
+        </view>
       </view>
     </view>
   </view>

@@ -50,9 +50,10 @@
             placeholder="输入关键词（如：餐饮、酒店、停车场）"
             clearable
           />
-          <wd-button type="primary" size="small" class="search-btn" @click="searchPoi"
-            >搜索</wd-button
-          >
+          <!-- scoped 类挂 wd- 组件标签在小程序端不命中，flex-shrink 包到原生 view 上生效 -->
+          <view class="search-btn">
+            <wd-button type="primary" size="small" @click="searchPoi">搜索</wd-button>
+          </view>
         </view>
       </view>
       <view v-if="pois.length" class="card">
